@@ -229,6 +229,7 @@ if __name__ == '__main__':
     args = handle_args()
 
     if args.log_output:
+        logging.raiseExceptions = False
         time_now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         logger = certmitm.util.createLogger("log", f"./outputs/certmitm_{time_now}.log")
     else:
