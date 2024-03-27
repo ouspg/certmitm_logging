@@ -11,6 +11,8 @@ import certmitm.util
 import certmitm.certtest
 import certmitm.connection
 
+from datetime import datetime
+
 description = """
                _             _ _               _                                     
               | |           (_) |             | |                                    
@@ -40,6 +42,7 @@ def handle_args():
     parser.add_argument('-s', '--show-data', action="store_true", help="Log the intercepted data to console. Trunkates to a sensible length", default=False)
     parser.add_argument('--show-data-all', action="store_true", help="Log all of the intercepted data to console. Not recommended as large amounts of data will mess up your console.", default=False)
     #parser.add_argument('--upstream-proxy', nargs=1, help="Upstream proxy for MITM. For example, BURP (127.0.0.1:8080)", metavar="ADDRESS") #not yet implemented
+    parser.add_argument('--log-output', action="store_true", help="Log to a file output.", default=False)
     return parser.parse_args()
 
 def threaded_connection_handler(downstream_socket):
@@ -225,7 +228,11 @@ def listen_forking(port):
 if __name__ == '__main__':
     args = handle_args()
 
-    logger = certmitm.util.createLogger("log")
+    if args.log_output:
+        time_now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        logger = certmitm.util.createLogger("log", f"./outputs/certmitm_{time_now}.log")
+    else:
+        logger = certmitm.util.createLogger("log", "")
 
     if args.debug:
         logger.setLevel(logging.DEBUG)
