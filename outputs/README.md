@@ -1,2 +1,2 @@
 ### THIS IS WHERE OUTPUTS WILL GO WHEN RUNNING WITH
-### --output-json
+### --log-output
